@@ -14,6 +14,7 @@ configuration.load do
       run "echo -e | #{sudo} add-apt-repository ppa:chris-lea/node.js"
       run "#{sudo} apt-get -y update"
       # Chris-lea's package already includes npm, this results in package conflict
+      # See: http://stackoverflow.com/questions/16302436/install-nodejs-on-ubuntu-12-10
       # run "#{sudo} apt-get -y install nodejs npm"
       run "#{sudo} apt-get -y install nodejs"
     end

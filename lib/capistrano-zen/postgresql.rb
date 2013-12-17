@@ -26,9 +26,11 @@ configuration.load do
   namespace :pg do
     desc "Install the latest stable release of PostgreSQL."
     task :install, roles: :db, only: {primary: true} do
-      run "#{sudo} add-apt-repository ppa:pitti/postgresql"
+      # Install standard postgres package included in ubuntu
+      # run "#{sudo} add-apt-repository ppa:pitti/postgresql"
+      # See: https://www.digitalocean.com/community/articles/how-to-install-and-use-postgresql-on-ubuntu-12-04
       run "#{sudo} apt-get -y update"
-      run "#{sudo} apt-get -y install postgresql libpq-dev"
+      run "#{sudo} apt-get -y install postgresql libpq-dev postgresql-contrib"
     end
 
     desc "Create a database for this application."

@@ -1,9 +1,7 @@
-RAILS_ENV = ENV['RAILS_ENV'] || "<%= rails_env %>"
-
 working_directory "<%= current_path %>"
 pid "<%= unicorn_pid %>"
-stderr_path "<%= current_path %>/log/unicorn.stderr.log"
-stdout_path "<%= current_path %>/log/unicorn.stdout.log"
+stderr_path "<%= unicorn_log %>"
+stdout_path "<%= unicorn_log %>"
 
 listen "/tmp/unicorn.<%= application %>.sock"
 worker_processes <%= unicorn_workers %>

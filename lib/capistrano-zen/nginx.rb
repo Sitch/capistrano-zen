@@ -20,6 +20,7 @@ configuration.load do
       task :unicorn, roles: :web do
         template "nginx_unicorn.erb", "/tmp/nginx_conf"
         run "#{sudo} mv /tmp/nginx_conf /etc/nginx/sites-enabled/#{application}"
+        run "#{sudo} rm -f /etc/nginx/sites-enabled/default"
         restart
       end
 

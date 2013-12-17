@@ -13,7 +13,9 @@ configuration.load do
       #run "#{sudo} add-apt-repository ppa:chris-lea/node.js"
       run "echo -e | #{sudo} add-apt-repository ppa:chris-lea/node.js"
       run "#{sudo} apt-get -y update"
-      run "#{sudo} apt-get -y install nodejs npm"
+      # Chris-lea's package already includes npm, this results in package conflict
+      # run "#{sudo} apt-get -y install nodejs npm"
+      run "#{sudo} apt-get -y install nodejs"
     end
   end
 end

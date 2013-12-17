@@ -9,7 +9,7 @@ configuration.load do
   _cset(:unicorn_group) { group }
   _cset(:unicorn_pid) { "#{current_path}/tmp/pids/unicorn.pid" }
   _cset(:unicorn_config) { "#{shared_path}/config/unicorn.rb" }
-  _cset(:unicorn_log) { "#{shared_path}/log/unicorn.log" }
+  _cset(:unicorn_log) { "#{shared_path}/log/unicorn.log" } # Unused in template!
   _cset(:unicorn_workers, 4)
 
   namespace :unicorn do

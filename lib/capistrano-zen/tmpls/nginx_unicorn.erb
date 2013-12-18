@@ -19,9 +19,6 @@ server {
     proxy_set_header Host $http_host;
     proxy_redirect off;
     proxy_pass http://unicorn;
-    # Logs
-    access_log <%= shared_path %>/log/nginx.access.log;
-    error_log <%= shared_path %>/log/nginx.error.log;
   }
 
   error_page 500 502 503 504 /500.html;
@@ -42,7 +39,7 @@ server {
 
   ssl_session_timeout  5m;
 
-  ssl_protocolsSSLv3    TLSv1;
+  ssl_protocols         SSLv3 TLSv1;
   ssl_ciphers           ALL:-ADH:+HIGH:+MEDIUM:-LOW:-SSLv2:-EXP;
   ssl_session_cache     shared:SSL:10m;
   
@@ -62,10 +59,6 @@ server {
     proxy_set_header  Host $http_host;
     proxy_redirect    off;
     proxy_pass        http://unicorn;
-
-    # Logs
-    access_log <%= shared_path %>/log/nginx.access.log;
-    error_log <%= shared_path %>/log/nginx.error.log;
   }
  
   error_page 500 502 503 504 /500.html;

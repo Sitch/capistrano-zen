@@ -4,7 +4,7 @@ upstream unicorn {
 
 server {
   listen 80 default deferred;
-  # server_name example.com;
+  # server_name <%= domain %>;
   root <%= current_path %>/public;
 
   location ^~ /assets/ {
@@ -25,3 +25,44 @@ server {
   client_max_body_size 4G;
   keepalive_timeout 10;
 }
+
+# For HTTPS connections (production server)
+# Need to set nginx_use_ssl: true in deploy.rb, and paths to ssl certificates
+<% if nginx_use_ssl %>
+server {
+  listen                443;
+  # server_name         <%= domain %>;
+  
+  ssl                   on;
+  ssl_certificate       /etc/ssl/<%= nginx_ssl_certificate %>;
+  ssl_certificate_key   /etc/ssl/<%= nginx_ssl_certificate_key %>;
+
+  ssl_session_timeout  5m;
+
+  ssl_protocolsSSLv3    TLSv1;
+  ssl_ciphers           ALL:-ADH:+HIGH:+MEDIUM:-LOW:-SSLv2:-EXP;
+  ssl_session_cache     shared:SSL:10m;
+  
+  root <%= current_path %>/public;
+ 
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
+ 
+  try_files $uri/index.html $uri @unicorn;
+  location @unicorn {
+    proxy_set_header  X-Real-IP       $remote_addr;
+    proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header  X-Forwarded-Proto https;
+    proxy_set_header  Host $http_host;
+    proxy_redirect    off;
+    proxy_pass        http://unicorn;
+  }
+ 
+  error_page 500 502 503 504 /500.html;
+  client_max_body_size 4G;
+  keepalive_timeout 10;
+}
+<% end %>
